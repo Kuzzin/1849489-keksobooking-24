@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг»
 
 * Студент: [Никита Кузин](https://up.htmlacademy.ru/javascript/24/user/1849489).
-* Наставник: `Неизвестно`.
+* Наставник: [Виктор Кан](https://htmlacademy.ru/profile/viktorkan).
 
 ---
 
