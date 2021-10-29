@@ -1,44 +1,8 @@
-import {TYPE, CHECKIN, CHECKOUT, FEATURES, PHOTOS, SIMILAR_ADS} from './data.js';
-import {getRandomNumber, getRandomFraction, getRandomArrayElement, getRandomArrayFull} from './randomizer.js';
-//import './map-offer.js'; попытка подключения модуля
+// Нифига не работает
 
-const createAds = () => {
-  const randomAvatarId = getRandomNumber(1, 10);
-  const randomLocationLat = getRandomFraction(35.65000, 35.70000, 5);
-  const randomLocationLng = getRandomFraction(139.70000, 139.80000, 5);
-  const ad = {
-    author: {
-      avatar: `img/avatars/user${randomAvatarId <= 9 ? `0${randomAvatarId}` : randomAvatarId}.png`,
-    },
-    offer: {
-      title: 'Ля какое предложение',
-      address: {
-        lat: randomLocationLat,
-        lng: randomLocationLng,
-      },
-      price: getRandomNumber(100, 100000),
-      type: getRandomArrayElement(TYPE),
-      rooms: getRandomNumber(1, 5),
-      guests: getRandomNumber(1, 10),
-      checkin: getRandomArrayElement(CHECKIN),
-      checkout: getRandomArrayElement(CHECKOUT),
-      features: getRandomArrayFull(FEATURES),
-      description: 'Ля какое помещение',
-      photos: getRandomArrayFull(PHOTOS),
-    },
-    location: {
-      lat: randomLocationLat,
-      lng: randomLocationLng,
-    },
-  };
-  return ad;
-};
+/*import {similarAds} from './main.js';
+import {getRandomNumber} from './randomizer.js';
 
-// eslint-disable-next-line no-unused-vars
-const similarAds = Array.from({length: SIMILAR_ADS}, createAds);
-
-//Это должно быть в модуле map-offer.js, но я не могу корректно его подключить (наверняка ошибка прям явная, но я не вижу)
-//+ не знаю, как предусмотреть, что поле может будет пустыи и его нужно скрыть.
 const mapCanvas = document.querySelector('#map-canvas');
 const similarOfferTemplate = document.querySelector('#card').content.querySelector('.popup');
 
@@ -86,7 +50,7 @@ ads.offer.photos.forEach((value) => {
   listPhotos.appendChild(img);
 });
 offerElement.querySelector('.popup__avatar').src = ads.author.avatar;
-
+// как предусмотреть отсутсвие инфо (скрыть поле)??
 mapCanvas.appendChild(offerElement);
 
-//export {similarAds}; попытка подключить модули
+export {mapCanvas, offerElement};*/
