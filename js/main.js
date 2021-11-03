@@ -1,5 +1,6 @@
 import {getSimilarAds} from './data.js';
 import {createNodeFromTemplate, addNodeToDOM} from './card.js';
+import {getInActive, getActive} from './form.js';
 
 const similarAds = getSimilarAds();
 
@@ -10,3 +11,6 @@ const mapCanvas = document.querySelector('#map-canvas');
 addNodeToDOM(nodeFromTemplate, mapCanvas);
 //mapCanvas.appendChild(nodeFromTemplate);
 
+getInActive();
+
+getActive();
