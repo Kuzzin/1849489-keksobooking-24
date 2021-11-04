@@ -44,7 +44,7 @@ const createAds = () => {
     offer: {
       title: 'Ля какое предложение',
       address: {
-        lat: randomLocationLat,
+        lat: null,//randomLocationLat,
         lng: randomLocationLng,
       },
       price: getRandomNumber(100, 100000),
