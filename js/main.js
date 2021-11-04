@@ -1,6 +1,6 @@
 import {getSimilarAds} from './data.js';
 import {createNodeFromTemplate, addNodeToDOM} from './card.js';
-import {getInActive, getActive} from './form.js';
+import {getInActive, getActive, validateTitle, validatePrice, validateRoomsGuests} from './form.js';
 
 const similarAds = getSimilarAds();
 
@@ -14,3 +14,7 @@ addNodeToDOM(nodeFromTemplate, mapCanvas);
 getInActive();
 
 getActive();
+
+validateTitle();
+validatePrice();
+validateRoomsGuests();
