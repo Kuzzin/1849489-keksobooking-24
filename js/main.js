@@ -1,6 +1,6 @@
 import {getSimilarAds} from './data.js';
 import {createNodeFromTemplate, addNodeToDOM} from './card.js';
-import {getInActive, getActive, validateTitle, validatePrice, validateRoomsGuests} from './form.js';
+import {getInActive, getActive, validateTitle, validatePrice, validateRoomsGuests, validateTypePrice, validateTimeIn, validateTimeOut} from './form.js';
 
 const similarAds = getSimilarAds();
 
@@ -18,3 +18,6 @@ getActive();
 validateTitle();
 validatePrice();
 validateRoomsGuests();
+validateTypePrice();
+validateTimeIn();
+validateTimeOut();
