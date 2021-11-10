@@ -8,6 +8,9 @@ const offerTitleInput = document.querySelector('#title');
 const offerPriceInput = document.querySelector('#price');
 const offerRoomsSelect = document.querySelector('#room_number');
 const offerGuestsSelect = document.querySelector('#capacity');
+const offerHousingType = document.querySelector('#type');
+const offerTimeIn = document.querySelector('#timein');
+const offerTimeOut = document.querySelector('#timeout');
 
 
 //поиск по классу элемента и добавление ему disabled
@@ -66,8 +69,8 @@ const validatePrice = () => {
   offerPriceInput.addEventListener('input', () => {
     const priceValue = offerPriceInput.value;
 
-    if (priceValue <= MIN_PRICE_LENGTH) {
-      offerPriceInput.setCustomValidity('Цена не может быть меньше или равна 0 руб.');
+    if (priceValue < MIN_PRICE_LENGTH) {
+      offerPriceInput.setCustomValidity('Слишком маленькая цена для выбранного типа жилья.');
     } else if (priceValue > MAX_PRICE_LENGTH) {
       offerPriceInput.setCustomValidity('Цена не может превышать 1 000 000 руб.');
     } else {
@@ -77,6 +80,37 @@ const validatePrice = () => {
     offerPriceInput.reportValidity();
   });
 };
+
+/*//Заводим словарь:
+
+const RoomsValue = {
+
+  1: [1],
+  2: [1, 2],
+  3: [1, 2, 3],
+  100: [0],
+};
+
+//После, опираемся на него для валидации:
+
+const onRoomChange = (evt) => {
+
+  optionCapacityGuests.forEach((option) => {
+
+    option.disabled = true;
+  });
+
+  RoomsValue[evt.target.value].forEach((seatsAmount) => {
+
+    optionCapacityGuests.forEach((option) => {
+
+      if (Number(option.value) === seatsAmount) {
+        option.disabled = false;
+        option.selected = true;
+      }
+    });
+  });
+};*/
 
 //Валидация полей количества комнат и гостей
 const validateRoomsGuests = () => {
@@ -118,6 +152,66 @@ const validateRoomsGuests = () => {
   });
 };
 
-export {getInActive, getActive, validateTitle, validatePrice, validateRoomsGuests};
+//Валидация поля цены от типа жилья (не знаю, как привязать к мин значению)
+const validateTypePrice = () => {
+  offerHousingType.addEventListener('change', (evt) => {
+    const value = evt.target.value;
 
+    if (value === 'bungalow') {
+      offerPriceInput.setAttribute('minLength', '0');
+      offerPriceInput.setAttribute('placeholder', '0');
 
+    }
+    if (value === 'flat') {
+      offerPriceInput.setAttribute('minLength', '1 000');
+      offerPriceInput.setAttribute('placeholder', '1 000');
+    }
+    if (value === 'hotel') {
+      offerPriceInput.setAttribute('minLength', '3 000');
+      offerPriceInput.setAttribute('placeholder', '3 000');
+    }
+    if (value === 'house') {
+      offerPriceInput.setAttribute('minLength', '5 000');
+      offerPriceInput.setAttribute('placeholder', '5 000');
+    }
+    if (value === 'palace') {
+      offerPriceInput.setAttribute('minLength', '10 000');
+      offerPriceInput.setAttribute('placeholder', '10 000');
+    }
+  });
+};
+
+//Валидация полей время заезда и выезда
+const validateTimeIn = () => {
+  offerTimeIn.addEventListener('change', () => {
+    const TimeInValue = offerTimeIn.value;
+
+    if (TimeInValue === '12:00') {
+      offerTimeOut.options[0].selected = true;
+    }
+    if (TimeInValue === '13:00') {
+      offerTimeOut.options[1].selected = true;
+    }
+    if (TimeInValue === '14:00') {
+      offerTimeOut.options[2].selected = true;
+    }
+  });
+};
+
+const validateTimeOut = () => {
+  offerTimeOut.addEventListener('change', () => {
+    const TimeOutValue = offerTimeOut.value;
+
+    if (TimeOutValue === '12:00') {
+      offerTimeIn.options[0].selected = true;
+    }
+    if (TimeOutValue === '13:00') {
+      offerTimeIn.options[1].selected = true;
+    }
+    if (TimeOutValue === '14:00') {
+      offerTimeIn.options[2].selected = true;
+    }
+  });
+};
+
+export {getInActive, getActive, validateTitle, validatePrice, validateRoomsGuests, validateTypePrice, validateTimeIn, validateTimeOut};
