@@ -1,12 +1,12 @@
-import {roomTypes} from './data.js';
+import {RoomTypes} from './const.js';
 
 const createPhotoNode = (src) => {
   const img = document.createElement('img');
   img.classList.add('popup__photo');
   img.src = src;
-  img.width='45';
-  img.height='40';
-  img.alt='Фотография жилья';
+  img.width = '45';
+  img.height = '40';
+  img.alt = 'Фотография жилья';
   return img;
 };
 
@@ -19,7 +19,7 @@ const createFeatureNode = (feature) => {
 
 const renderFeatures = (features, offerElement) => {
   const listFeatures = offerElement.querySelector('.popup__features');
-  if (features.length === 0) {
+  if (!features || features.length === 0) {
     listFeatures.style.display = 'none';
   } else {
     listFeatures.innerHTML = '';
@@ -32,7 +32,7 @@ const renderFeatures = (features, offerElement) => {
 
 const renderPhotos = (photos, offerElement) => {
   const listPhotos = offerElement.querySelector('.popup__photos');
-  if (photos.length === 0) {
+  if (!photos || photos.length === 0) {
     listPhotos.style.display = 'none';
   } else {
     listPhotos.innerHTML = '';
@@ -54,22 +54,18 @@ const checkIsEmptyString = (string, node, attr) => {
 
 //Функция, которая отрисовывает рандомный элемент массива в карте
 const createNodeFromTemplate = (data) => {
-
   const similarOfferTemplate = document.querySelector('#card').content.querySelector('.popup');
   const offerElement = similarOfferTemplate.cloneNode(true);
   checkIsEmptyString(data.offer.title, offerElement.querySelector('.popup__title'), 'textContent');
 
-  offerElement.querySelector('.popup__text--address').textContent = `${data.offer.address.lat  } ${  data.offer.address.lng}`;
-  if (data.offer.address.lat === null ||  data.offer.address.lng === null) {
-    offerElement.querySelector('.popup__text--address').style.display = 'none';
-  }
+  checkIsEmptyString(data.offer.address, offerElement.querySelector('.popup__text--address'), 'textContent');
 
   offerElement.querySelector('.popup__text--price').textContent = `${data.offer.price  } ₽/ночь`;
   if (data.offer.price === null) {
     offerElement.querySelector('.popup__text--price').style.display = 'none';
   }
 
-  checkIsEmptyString(roomTypes[data.offer.type], offerElement.querySelector('.popup__type'), 'textContent');
+  checkIsEmptyString(RoomTypes[data.offer.type], offerElement.querySelector('.popup__type'), 'textContent');
 
   offerElement.querySelector('.popup__text--capacity').textContent = `${data.offer.rooms  } комнат(ы) для ${  data.offer.guests  } гостей(я)`;
   if (data.offer.rooms === null || data.offer.guests === null) {
@@ -88,6 +84,7 @@ const createNodeFromTemplate = (data) => {
 
   return offerElement;
 };
+
 //Функция, которая ренедерит ноду в DOM
 const addNodeToDOM = (node, container) => {
   container.appendChild(node);
