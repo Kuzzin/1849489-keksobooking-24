@@ -1,23 +1,25 @@
-import {getSimilarAds} from './data.js';
-import {createNodeFromTemplate, addNodeToDOM} from './card.js';
-import {getInActive, getActive, validateTitle, validatePrice, validateRoomsGuests, validateTypePrice, validateTimeIn, validateTimeOut} from './form.js';
+import { showErrorPopup } from './error.js';
+import {getInActive, getActive} from './form.js';
+import { initializateMap, createMarkers} from './map.js';
+import './upload-photo.js';
 
-const similarAds = getSimilarAds();
+const mapFilters = document.querySelector('.map__filters');
 
-const nodeFromTemplate = createNodeFromTemplate(similarAds[0]);
+let originalOffers = [];
 
-const mapCanvas = document.querySelector('#map-canvas');
+const onSuccessFetchOffers = (data) => {
+  originalOffers = data;
+  createMarkers(data);
+  mapFilters.addEventListener('change', () => {
+    createMarkers(data);
+  });
+};
 
-addNodeToDOM(nodeFromTemplate, mapCanvas);
-//mapCanvas.appendChild(nodeFromTemplate);
+const onErrorFetchOffers = (err) => {
+  showErrorPopup(err);
+};
 
 getInActive();
+initializateMap(getActive, onSuccessFetchOffers, onErrorFetchOffers);
 
-getActive();
-
-validateTitle();
-validatePrice();
-validateRoomsGuests();
-validateTypePrice();
-validateTimeIn();
-validateTimeOut();
+export {originalOffers};
