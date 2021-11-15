@@ -1,6 +1,8 @@
-const fetchOffers = (onSuccess, onError) => {
+const URL_GET = 'https://24.javascript.pages.academy/keksobooking/data';
+const URL_POST = 'https://24.javascript.pages.academy/keksobooking';
 
-  fetch('https://24.javascript.pages.academy/keksobooking/data')
+const fetchOffers = (onSuccess, onError) => {
+  fetch(URL_GET)
     .then((response) => {
       if (response.ok) {
         return response.json();
@@ -16,7 +18,7 @@ const fetchOffers = (onSuccess, onError) => {
 };
 
 const uploadOffer = (onSuccess, onError, body) => {
-  fetch('https://24.javascript.pages.academy/keksobooking', {
+  fetch(URL_POST, {
     method: 'POST',
     'Content-Type': 'multipart/form-data',
     body,
@@ -33,5 +35,4 @@ const uploadOffer = (onSuccess, onError, body) => {
     });
 };
 
-
-export {fetchOffers, uploadOffer};
+export { fetchOffers, uploadOffer };

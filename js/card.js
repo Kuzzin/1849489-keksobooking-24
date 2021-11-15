@@ -1,4 +1,4 @@
-import {RoomTypes} from './const.js';
+import { roomTypes } from './const.js';
 
 const createPhotoNode = (src) => {
   const img = document.createElement('img');
@@ -60,19 +60,19 @@ const createNodeFromTemplate = (data) => {
 
   checkIsEmptyString(data.offer.address, offerElement.querySelector('.popup__text--address'), 'textContent');
 
-  offerElement.querySelector('.popup__text--price').textContent = `${data.offer.price  } ₽/ночь`;
+  offerElement.querySelector('.popup__text--price').textContent = `${data.offer.price} ₽/ночь`;
   if (data.offer.price === null) {
     offerElement.querySelector('.popup__text--price').style.display = 'none';
   }
 
-  checkIsEmptyString(RoomTypes[data.offer.type], offerElement.querySelector('.popup__type'), 'textContent');
+  checkIsEmptyString(roomTypes[data.offer.type], offerElement.querySelector('.popup__type'), 'textContent');
 
-  offerElement.querySelector('.popup__text--capacity').textContent = `${data.offer.rooms  } комнат(ы) для ${  data.offer.guests  } гостей(я)`;
+  offerElement.querySelector('.popup__text--capacity').textContent = `${data.offer.rooms} комнат(ы) для ${data.offer.guests} гостей(я)`;
   if (data.offer.rooms === null || data.offer.guests === null) {
     offerElement.querySelector('.popup__text--capacity').style.display = 'none';
   }
 
-  offerElement.querySelector('.popup__text--time').textContent = `Заезд после ${  data.offer.checkin  }, выезд до ${  data.offer.checkout  } гостей(я)`;
+  offerElement.querySelector('.popup__text--time').textContent = `Заезд после ${data.offer.checkin}, выезд до ${data.offer.checkout} гостей(я)`;
   if (data.offer.checkin === '' || data.offer.checkout === '') {
     offerElement.querySelector('.popup__text--time').style.display = 'none';
   }
@@ -90,4 +90,4 @@ const addNodeToDOM = (node, container) => {
   container.appendChild(node);
 };
 
-export {createNodeFromTemplate, addNodeToDOM};
+export { createNodeFromTemplate, addNodeToDOM };

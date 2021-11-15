@@ -1,5 +1,5 @@
-import { transformLatLng} from './utils/transform-lat-lng.js';
-import { fetchOffers } from './fetch.js';
+import { transformLatLng } from './utils/transform-lat-lng.js';
+import { fetchOffers } from './api.js';
 import { createNodeFromTemplate } from './card.js';
 import { INITIAL_COORDS } from './const.js';
 import { getFilteredOffers } from './filter.js';
@@ -31,14 +31,14 @@ const markerGroupUsual = L.layerGroup().addTo(map);
 
 //Создание метки для каждого похожего объявления
 const createMarker = (offer) => {
-  const {lat, lng} = offer.location;
+  const { lat, lng } = offer.location;
   const icon = L.icon({
     iconUrl: '../img/pin.svg',
     iconSize: [40, 40],
     iconAnchor: [20, 40],
   });
 
-  const marker = L.marker({lat, lng}, {icon});
+  const marker = L.marker({ lat, lng }, { icon });
 
   //добавление в слой и вывод попапа с данными
   marker
@@ -71,7 +71,7 @@ const createMainPin = () => {
   );
 
   mainPin.on('moveend', (evt) => {
-    const {lat, lng} = evt.target.getLatLng();
+    const { lat, lng } = evt.target.getLatLng();
     addressInput.value = transformLatLng(lat, lng);
   });
   return mainPin;
@@ -96,4 +96,4 @@ const resetMap = () => {
   createMarkers(originalOffers);
 };
 
-export {initializateMap, createMarker, createMarkers, resetMap, setDefaultAddress};
+export { initializateMap, createMarker, createMarkers, resetMap, setDefaultAddress };
