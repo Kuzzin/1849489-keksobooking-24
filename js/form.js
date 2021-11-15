@@ -1,23 +1,24 @@
-import { uploadOffer } from './fetch.js';
+import { uploadOffer } from './api.js';
 import { transformLatLng } from './utils/transform-lat-lng.js';
 import { INITIAL_COORDS } from './const.js';
 import { resetFilters } from './filter.js';
 import { resetMap, setDefaultAddress } from './map.js';
 import { onErrorSendForm, onSuccessSendForm } from './modals.js';
+import { uploadPhotos } from './upload-photo.js';
 
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
 const MAX_PRICE_LENGTH = 1000000;
 const PRICE_PLACEHOLDER = 5000;
 
-const RoomsValue = {
+const roomValues = {
   1: [1],
   2: [1, 2],
   3: [1, 2, 3],
   100: [0],
 };
 
-const HouseTypePrice = {
+const housePriceTypes = {
   house: '5000',
   palace: '10000',
   bungalow: '0',
@@ -25,7 +26,6 @@ const HouseTypePrice = {
   hotel: '3000',
 };
 
-const avatarPreview = document.querySelector('.ad-form-header__preview img');
 const offerTitleInput = document.querySelector('#title');
 const offerPriceInput = document.querySelector('#price');
 const offerRoomsSelect = document.querySelector('#room_number');
@@ -37,6 +37,10 @@ const offerDescription = document.querySelector('#description');
 const offerFeatures = document.querySelectorAll('.features__checkbox');
 const offerAddressInput = document.querySelector('#address');
 const adForm = document.querySelector('.ad-form');
+const avatarChooser = document.querySelector('.ad-form__field input[type=file]');
+const avatarPreview = document.querySelector('.ad-form-header__preview img');
+const houseChooser = document.querySelector('.ad-form__upload input[type=file]');
+const housePreview = document.querySelector('.ad-form__photo img');
 
 //поиск по классу элемента и добавление ему disabled
 const getInActive = () => {
@@ -75,9 +79,9 @@ const validateTitle = () => {
     const titleLength = offerTitleInput.value.length;
 
     if (titleLength < MIN_TITLE_LENGTH) {
-      offerTitleInput.setCustomValidity(`Ещё ${  MIN_TITLE_LENGTH - titleLength } симв.`);
+      offerTitleInput.setCustomValidity(`Ещё ${MIN_TITLE_LENGTH - titleLength} симв.`);
     } else if (titleLength > MAX_TITLE_LENGTH) {
-      offerTitleInput.setCustomValidity(`Удалите лишние ${  titleLength - MAX_TITLE_LENGTH } симв.`);
+      offerTitleInput.setCustomValidity(`Удалите лишние ${titleLength - MAX_TITLE_LENGTH} симв.`);
     } else {
       offerTitleInput.setCustomValidity('');
     }
@@ -108,7 +112,7 @@ const onRoomChange = (evt) => {
     option.disabled = true;
   });
 
-  RoomsValue[evt.target.value].forEach((seatsAmount) => {
+  roomValues[evt.target.value].forEach((seatsAmount) => {
     Array.from(offerGuestsSelect.options).forEach((option) => {
       if (Number(option.value) === seatsAmount) {
         option.disabled = false;
@@ -127,8 +131,8 @@ const validateTypePrice = () => {
 
   offerHousingType.addEventListener('change', (evt) => {
     const value = evt.target.value;
-    offerPriceInput.setAttribute('min', HouseTypePrice[value]);
-    offerPriceInput.setAttribute('placeholder', HouseTypePrice[value]);
+    offerPriceInput.setAttribute('min', housePriceTypes[value]);
+    offerPriceInput.setAttribute('placeholder', housePriceTypes[value]);
   });
 };
 
@@ -155,6 +159,7 @@ const validateTimeOut = () => {
 
 const resetForm = () => {
   avatarPreview.src = 'img/muffin-grey.svg';
+  housePreview.src = 'img/muffin-grey.svg';
   offerTitleInput.value = '';
   offerTimeOut.options[0].selected = true;
   offerTimeIn.options[0].selected = true;
@@ -194,4 +199,7 @@ validateTypePrice();
 validateTimeIn();
 validateTimeOut();
 
-export {getInActive, getActive, validateTitle, validatePrice, validateRoomsGuests, validateTypePrice, validateTimeIn, validateTimeOut, resetPage};
+uploadPhotos(avatarChooser, avatarPreview);
+uploadPhotos(houseChooser, housePreview);
+
+export { getInActive, getActive, validateTitle, validatePrice, validateRoomsGuests, validateTypePrice, validateTimeIn, validateTimeOut, resetPage };
