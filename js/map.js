@@ -6,6 +6,12 @@ import { getFilteredOffers } from './filter.js';
 import { debounce } from './utils/debounce.js';
 import { originalOffers } from './main.js';
 
+const MAIN_MARKER_SIZE = [50, 50];
+const MAIN_MARKER_ANCHOR = [50, 50];
+const SIMILAR_MARKER_SIZE = [40, 40];
+const SIMILAR_MARKER_ANCHOR = [20, 40];
+
+
 const TIMEOUT = 500;
 const MAP_ZOOM = 10;
 
@@ -29,8 +35,8 @@ const createMarker = (offer) => {
   const { lat, lng } = offer.location;
   const icon = L.icon({
     iconUrl: '../img/pin.svg',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
+    iconSize: SIMILAR_MARKER_SIZE,
+    iconAnchor: SIMILAR_MARKER_ANCHOR,
   });
 
   const marker = L.marker({ lat, lng }, { icon });
@@ -52,8 +58,8 @@ const createMarkers = debounce((data) => {
 const createMainPin = () => {
   const mainPinIcon = L.icon({
     iconUrl: '../img/main-pin.svg',
-    iconSize: [52, 52],
-    iconAnchor: [26, 52],
+    iconSize: MAIN_MARKER_SIZE,
+    iconAnchor: MAIN_MARKER_ANCHOR,
   });
 
   const mainPin = L.marker(INITIAL_COORDS,
@@ -63,7 +69,7 @@ const createMainPin = () => {
     },
   );
 
-  mainPin.on('moveend', (evt) => {
+  mainPin.on('move', (evt) => {
     const { lat, lng } = evt.target.getLatLng();
     addressInput.value = transformLatLng(lat, lng);
   });

@@ -9,7 +9,7 @@ import { uploadPhotos } from './upload-photo.js';
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
 const MAX_PRICE_LENGTH = 1000000;
-const PRICE_PLACEHOLDER = 5000;
+const PRICE_PLACEHOLDER = 1000;
 
 const roomValues = {
   1: [1],
@@ -68,8 +68,6 @@ const getInActive = () => {
 
 const getActive = () => {
   adForm.classList.remove('ad-form--disabled');
-  const mapFilters = document.querySelector('.map__filters');
-  mapFilters.classList.remove('map__filters--disabled');
   const interactiveFields = document.querySelectorAll('form.ad-form > fieldset');
   interactiveFields.forEach((field) => {
     field.removeAttribute('disabled');
@@ -78,6 +76,11 @@ const getActive = () => {
   interactiveMapEl.forEach((select) => {
     select.removeAttribute('disabled');
   });
+};
+
+const getActiveFilters = () => {
+  const mapFilters = document.querySelector('.map__filters');
+  mapFilters.classList.remove('map__filters--disabled');
 };
 
 const validateTitle = () => {
@@ -139,19 +142,9 @@ const validateTypePrice = () => {
   });
 };
 
-const validateTimeIn = () => {
-  offerTimeIn.addEventListener('change', (evt) => {
-    Array.from(offerTimeOut.options).forEach((option) => {
-      if (option.value === evt.target.value) {
-        option.selected = true;
-      }
-    });
-  });
-};
-
-const validateTimeOut = () => {
-  offerTimeOut.addEventListener('change', (evt) => {
-    Array.from(offerTimeIn.options).forEach((option) => {
+const validateTime = (timeIn, timeOut) => {
+  timeIn.addEventListener('change', (evt) => {
+    Array.from(timeOut.options).forEach((option) => {
       if (option.value === evt.target.value) {
         option.selected = true;
       }
@@ -198,10 +191,10 @@ validateTitle();
 validatePrice();
 validateRoomsGuests();
 validateTypePrice();
-validateTimeIn();
-validateTimeOut();
+validateTime(offerTimeIn, offerTimeOut);
+validateTime(offerTimeOut, offerTimeIn);
 
 uploadPhotos(avatarChooser, avatarPreview);
 uploadPhotos(houseChooser, housePreview);
 
-export { getInActive, getActive, validateTitle, validatePrice, validateRoomsGuests, validateTypePrice, validateTimeIn, validateTimeOut, resetPage, roomTypes };
+export { getInActive, getActive, getActiveFilters, validateTitle, validatePrice, validateRoomsGuests, validateTypePrice, validateTime, resetPage, roomTypes };

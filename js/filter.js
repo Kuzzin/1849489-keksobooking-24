@@ -1,6 +1,10 @@
 const COUNT_OFFERS = 10;
 const DEFAULT_VALUE = 'any';
 
+const lowPrice = 'low';
+const middlePrice = 'middle';
+const highPrice = 'high';
+
 const PriceValue = {
   low: 9999,
   middle: 10000,
@@ -15,12 +19,12 @@ const mapFilters = document.querySelector('.map__filters');
 
 const getCategoryPrice = (price) => {
   if (price <= PriceValue.low) {
-    return 'low';
+    return lowPrice;
   }
   if (price >= PriceValue.high) {
-    return 'high';
+    return highPrice;
   }
-  return 'middle';
+  return middlePrice;
 };
 
 const filterByType = (type) => type === housingType.value || housingType.value === DEFAULT_VALUE;
