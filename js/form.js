@@ -18,6 +18,14 @@ const roomValues = {
   100: [0],
 };
 
+const roomTypes = {
+  flat: 'Квартира',
+  bungalow: 'Бунгало',
+  house: 'Дом',
+  palace: 'Дворец',
+  hotel: 'Отель',
+};
+
 const housePriceTypes = {
   house: '5000',
   palace: '10000',
@@ -25,6 +33,8 @@ const housePriceTypes = {
   flat: '1000',
   hotel: '3000',
 };
+
+const imgDefault = 'img/muffin-grey.svg';
 
 const offerTitleInput = document.querySelector('#title');
 const offerPriceInput = document.querySelector('#price');
@@ -42,7 +52,6 @@ const avatarPreview = document.querySelector('.ad-form-header__preview img');
 const houseChooser = document.querySelector('.ad-form__upload input[type=file]');
 const housePreview = document.querySelector('.ad-form__photo img');
 
-//поиск по классу элемента и добавление ему disabled
 const getInActive = () => {
   adForm.classList.add('ad-form--disabled');
   const mapFilters = document.querySelector('.map__filters');
@@ -57,12 +66,10 @@ const getInActive = () => {
   });
 };
 
-//поиск по классу элемента и удаление disabled
 const getActive = () => {
   adForm.classList.remove('ad-form--disabled');
   const mapFilters = document.querySelector('.map__filters');
   mapFilters.classList.remove('map__filters--disabled');
-  //поиск по классу элемента и удаление ему disabled
   const interactiveFields = document.querySelectorAll('form.ad-form > fieldset');
   interactiveFields.forEach((field) => {
     field.removeAttribute('disabled');
@@ -73,7 +80,6 @@ const getActive = () => {
   });
 };
 
-//Валидация поля Заголовка
 const validateTitle = () => {
   offerTitleInput.addEventListener('input', () => {
     const titleLength = offerTitleInput.value.length;
@@ -90,7 +96,6 @@ const validateTitle = () => {
   });
 };
 
-//Валидация поля цены
 const validatePrice = () => {
   offerPriceInput.addEventListener('input', () => {
     const priceValue = offerPriceInput.value;
@@ -106,7 +111,6 @@ const validatePrice = () => {
   });
 };
 
-//Валидация полей количества комнат и гостей
 const onRoomChange = (evt) => {
   Array.from(offerGuestsSelect.options).forEach((option) => {
     option.disabled = true;
@@ -126,7 +130,6 @@ const validateRoomsGuests = () => {
   offerRoomsSelect.addEventListener('change', onRoomChange);
 };
 
-//Валидация поля цены от типа жилья
 const validateTypePrice = () => {
 
   offerHousingType.addEventListener('change', (evt) => {
@@ -136,7 +139,6 @@ const validateTypePrice = () => {
   });
 };
 
-//Валидация полей время заезда и выезда
 const validateTimeIn = () => {
   offerTimeIn.addEventListener('change', (evt) => {
     Array.from(offerTimeOut.options).forEach((option) => {
@@ -158,8 +160,8 @@ const validateTimeOut = () => {
 };
 
 const resetForm = () => {
-  avatarPreview.src = 'img/muffin-grey.svg';
-  housePreview.src = 'img/muffin-grey.svg';
+  avatarPreview.src = imgDefault;
+  housePreview.src = imgDefault;
   offerTitleInput.value = '';
   offerTimeOut.options[0].selected = true;
   offerTimeIn.options[0].selected = true;
@@ -202,4 +204,4 @@ validateTimeOut();
 uploadPhotos(avatarChooser, avatarPreview);
 uploadPhotos(houseChooser, housePreview);
 
-export { getInActive, getActive, validateTitle, validatePrice, validateRoomsGuests, validateTypePrice, validateTimeIn, validateTimeOut, resetPage };
+export { getInActive, getActive, validateTitle, validatePrice, validateRoomsGuests, validateTypePrice, validateTimeIn, validateTimeOut, resetPage, roomTypes };

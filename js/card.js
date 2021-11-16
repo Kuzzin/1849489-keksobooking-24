@@ -1,4 +1,4 @@
-import { roomTypes } from './const.js';
+import { roomTypes } from './form.js';
 
 const createPhotoNode = (src) => {
   const img = document.createElement('img');
@@ -43,7 +43,6 @@ const renderPhotos = (photos, offerElement) => {
   }
 };
 
-//Функция проверки на пустое значение
 const checkIsEmptyString = (string, node, attr) => {
   if (string === '') {
     node.style.display = 'none';
@@ -52,7 +51,6 @@ const checkIsEmptyString = (string, node, attr) => {
   }
 };
 
-//Функция, которая отрисовывает рандомный элемент массива в карте
 const createNodeFromTemplate = (data) => {
   const similarOfferTemplate = document.querySelector('#card').content.querySelector('.popup');
   const offerElement = similarOfferTemplate.cloneNode(true);
@@ -85,7 +83,6 @@ const createNodeFromTemplate = (data) => {
   return offerElement;
 };
 
-//Функция, которая ренедерит ноду в DOM
 const addNodeToDOM = (node, container) => {
   container.appendChild(node);
 };

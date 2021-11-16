@@ -3,12 +3,4 @@ const INITIAL_COORDS = {
   lng: 139.692,
 };
 
-const roomTypes = {
-  flat: 'Квартира',
-  bungalow: 'Бунгало',
-  house: 'Дом',
-  palace: 'Дворец',
-  hotel: 'Отель',
-};
-
-export { INITIAL_COORDS, roomTypes };
+export { INITIAL_COORDS };

@@ -11,12 +11,9 @@ const MAP_ZOOM = 10;
 
 const addressInput = document.querySelector('#address');
 
-//Добавление в инпут координат по обработчику якоря
 const setDefaultAddress = () => {
   addressInput.value = transformLatLng(INITIAL_COORDS.lat, INITIAL_COORDS.lng);
 };
-
-setDefaultAddress();
 
 const map = L.map('map-canvas');
 L.tileLayer(
@@ -26,10 +23,8 @@ L.tileLayer(
   },
 ).addTo(map);
 
-//Создание слоя с группой меток похожих объявлений
 const markerGroupUsual = L.layerGroup().addTo(map);
 
-//Создание метки для каждого похожего объявления
 const createMarker = (offer) => {
   const { lat, lng } = offer.location;
   const icon = L.icon({
@@ -40,7 +35,6 @@ const createMarker = (offer) => {
 
   const marker = L.marker({ lat, lng }, { icon });
 
-  //добавление в слой и вывод попапа с данными
   marker
     .addTo(markerGroupUsual)
     .bindPopup(createNodeFromTemplate(offer));
@@ -56,7 +50,6 @@ const createMarkers = debounce((data) => {
 }, TIMEOUT);
 
 const createMainPin = () => {
-  //Создание главной метки
   const mainPinIcon = L.icon({
     iconUrl: '../img/main-pin.svg',
     iconSize: [52, 52],
@@ -82,7 +75,7 @@ const mainPinMarker = createMainPin();
 const initializateMap = (onGetActive, onSuccess, onError) => {
   map
     .on('load', () => {
-      onGetActive(); //Активное состояние формы
+      onGetActive();
       fetchOffers(onSuccess, onError);
     })
     .setView(INITIAL_COORDS, MAP_ZOOM);
@@ -95,5 +88,8 @@ const resetMap = () => {
   map.setView(INITIAL_COORDS, MAP_ZOOM);
   createMarkers(originalOffers);
 };
+
+setDefaultAddress();
+
 
 export { initializateMap, createMarker, createMarkers, resetMap, setDefaultAddress };
