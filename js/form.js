@@ -10,6 +10,7 @@ const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
 const MAX_PRICE_LENGTH = 1000000;
 const PRICE_PLACEHOLDER = 1000;
+const DEFAULT_OPTION_ROOM_SELECT = '1';
 
 const roomValues = {
   1: [1],
@@ -133,7 +134,6 @@ const validateRoomsGuests = () => {
 };
 
 const validateTypePrice = () => {
-
   offerHousingType.addEventListener('change', (evt) => {
     const value = evt.target.value;
     offerPriceInput.min = housePriceTypes[value];
@@ -151,11 +151,21 @@ const validateTime = (timeIn, timeOut) => {
   });
 };
 
+const resetRoomSelect = () => {
+  Array.from(offerGuestsSelect.options).forEach((option) => {
+    option.disabled = true;
+    if (option.value === DEFAULT_OPTION_ROOM_SELECT) {
+      option.disabled = false;
+      option.selected = true;
+    }
+  });
+};
+
 const resetForm = () => {
   adForm.reset();
   avatarPreview.src = imgDefault;
   housePreview.src = imgDefault;
-  offerGuestsSelect.options[2].selected = true;
+  resetRoomSelect();
   offerPriceInput.placeholder = PRICE_PLACEHOLDER;
   offerAddressInput.value = transformLatLng(INITIAL_COORDS.lat, INITIAL_COORDS.lng);
 };
