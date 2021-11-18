@@ -43,10 +43,9 @@ const offerGuestsSelect = document.querySelector('#capacity');
 const offerHousingType = document.querySelector('#type');
 const offerTimeIn = document.querySelector('#timein');
 const offerTimeOut = document.querySelector('#timeout');
-const offerDescription = document.querySelector('#description');
-const offerFeatures = document.querySelectorAll('.features__checkbox');
 const offerAddressInput = document.querySelector('#address');
 const adForm = document.querySelector('.ad-form');
+const adFormReset = document.querySelector('.ad-form__reset');
 const avatarChooser = document.querySelector('.ad-form__field input[type=file]');
 const avatarPreview = document.querySelector('.ad-form-header__preview img');
 const houseChooser = document.querySelector('.ad-form__upload input[type=file]');
@@ -58,11 +57,11 @@ const getInActive = () => {
   mapFilters.classList.add('map__filters--disabled');
   const interactiveFields = document.querySelectorAll('form.ad-form > fieldset');
   interactiveFields.forEach((field) => {
-    field.setAttribute('disabled', 'disabled');
+    field.disabled = true;
   });
   const interactiveMapEl = document.querySelectorAll('form.map__filters > select');
   interactiveMapEl.forEach((select) => {
-    select.setAttribute('disabled', 'disabled');
+    select.disabled = true;
   });
 };
 
@@ -70,17 +69,17 @@ const getActive = () => {
   adForm.classList.remove('ad-form--disabled');
   const interactiveFields = document.querySelectorAll('form.ad-form > fieldset');
   interactiveFields.forEach((field) => {
-    field.removeAttribute('disabled');
-  });
-  const interactiveMapEl = document.querySelectorAll('form.map__filters > select');
-  interactiveMapEl.forEach((select) => {
-    select.removeAttribute('disabled');
+    field.disabled = false;
   });
 };
 
 const getActiveFilters = () => {
   const mapFilters = document.querySelector('.map__filters');
   mapFilters.classList.remove('map__filters--disabled');
+  const interactiveMapEl = document.querySelectorAll('form.map__filters > select');
+  interactiveMapEl.forEach((select) => {
+    select.disabled = false;
+  });
 };
 
 const validateTitle = () => {
@@ -137,8 +136,8 @@ const validateTypePrice = () => {
 
   offerHousingType.addEventListener('change', (evt) => {
     const value = evt.target.value;
-    offerPriceInput.setAttribute('min', housePriceTypes[value]);
-    offerPriceInput.setAttribute('placeholder', housePriceTypes[value]);
+    offerPriceInput.min = housePriceTypes[value];
+    offerPriceInput.placeholder = housePriceTypes[value];
   });
 };
 
@@ -153,21 +152,12 @@ const validateTime = (timeIn, timeOut) => {
 };
 
 const resetForm = () => {
+  adForm.reset();
   avatarPreview.src = imgDefault;
   housePreview.src = imgDefault;
-  offerTitleInput.value = '';
-  offerTimeOut.options[0].selected = true;
-  offerTimeIn.options[0].selected = true;
   offerGuestsSelect.options[2].selected = true;
-  offerHousingType.options[1].selected = true;
-  offerRoomsSelect.options[0].selected = true;
-  offerPriceInput.value = '';
   offerPriceInput.placeholder = PRICE_PLACEHOLDER;
-  offerDescription.value = '';
   offerAddressInput.value = transformLatLng(INITIAL_COORDS.lat, INITIAL_COORDS.lng);
-  offerFeatures.forEach((feature) => {
-    feature.checked = false;
-  });
 };
 
 const resetPage = () => {
@@ -177,14 +167,14 @@ const resetPage = () => {
   setDefaultAddress();
 };
 
+adFormReset.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  resetPage();
+});
+
 adForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
   uploadOffer(onSuccessSendForm, onErrorSendForm, new FormData(evt.target));
-});
-
-adForm.addEventListener('reset', (evt) => {
-  evt.preventDefault();
-  resetPage();
 });
 
 validateTitle();
